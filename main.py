@@ -1,3 +1,4 @@
+
 """Ejercicio 1.1 - Orquestador concurrente de modelos (Python 3.12+)."""
 
 import asyncio
@@ -18,15 +19,15 @@ async def _simular(nombre: str, latencia: float, prompt: str) -> str:
     return f"{nombre}: respuesta a '{prompt}'"
 
 
-async def gpt_4_call(prompt: str) -> str:
+async def gpt_4_call(prompt: str = "test") -> str:
     return await _simular("gpt_4_call", 1.0, prompt)
 
 
-async def claude_3_call(prompt: str) -> str:
+async def claude_3_call(prompt: str = "test") -> str:
     return await _simular("claude_3_call", 1.5, prompt)
 
 
-async def local_llama_call(prompt: str) -> str:
+async def local_llama_call(prompt: str = "test") -> str:
     return await _simular("local_llama_call", 3.0, prompt)  # supera el timeout a propósito
 
 
@@ -34,7 +35,7 @@ MODELOS = [gpt_4_call, claude_3_call, local_llama_call]
 
 
 # --- 3 y 4. Orquestación con timeout sobre la ejecución total ---
-async def orquestar(prompt: str) -> list[str | None]:
+async def orquestar(prompt: str = "test") -> list[str | None]:
     """Lanza todos los modelos a la vez; devuelve None para los que no llegaron a tiempo."""
     tareas = [asyncio.create_task(m(prompt), name=m.__name__) for m in MODELOS]
     try:
